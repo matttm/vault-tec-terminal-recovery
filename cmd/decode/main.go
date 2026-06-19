@@ -1,0 +1,26 @@
+package main
+
+import (
+	"fmt"
+	"log"
+
+	vaulttec "vaulttec"
+)
+
+func main() {
+	stream := []byte{
+		0x52, 0x4F, 0x42, 0x43,
+		0x16, 0x5F,
+		0x0C,
+		0x13, 0x34, 0x37, 0x37,
+		0x3A, 0x20, 0x13, 0x3A,
+		0x3F, 0x39, 0x33, 0x23,
+	}
+
+	passcode, err := vaulttec.DecodeVaultOverride(stream)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(passcode)
+}
