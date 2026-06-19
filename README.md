@@ -116,6 +116,6 @@ go run ./cmd/decode
 
 Files:
 
-* `solution.go` contains the implementation entry point.
-* `solution_test.go` contains visible test cases for valid packets, corrupt packets, and zero-allocation successful decoding.
+* `solution.go` contains the starter stub for your implementation.
+* `solution_test.go` contains visible test cases for valid packets, corrupt packets, and zero-allocation successful decoding. These tests are expected to fail until you implement the stub.
 * `cmd/decode/main.go` runs the recovered byte stream from this README and prints the decoded passcode.
