@@ -3,28 +3,28 @@ package vaulttec
 import (
 	"encoding/binary"
 	"errors"
-	"log"
 )
 
-var (
-	PREAMBLE = [4]byte{0x52, 0x4F, 0x42, 0x43}
-)
 // DecodeVaultOverride parses the raw stream in-place.
 // It returns the decoded passcode string, or an error if the packet is corrupt or unauthorized.
 func DecodeVaultOverride(stream []byte) (string, error) {
-	if len(stream) < len(PREAMBLE)+3 {
+	if len(stream) < 7 {
 		return "", errors.New("packet too short")
 	}
-	for i, b := range PREAMBLE {
-		if stream[i] != b {
-			return "", errors.New("invalid preamble")
-		}
+	if !(stream[0] == 0x52 && stream[1] == 0x4F && stream[2] == 0x42 && stream[3] == 0x43) {
+		return "", errors.New("invalid preamble")
 	}
 	meta := binary.BigEndian.Uint16(stream[4:6]) // 0x165F
 	clearance := meta & 0x000F        // bits 0-3  => 0xF
 	secId := (meta >> 4) & 0x00FF     // bits 4-11 => 0x65
 	encType := (meta >> 12) & 0x000F  // bits 12-15 => 0x1
-	log.Printf("clearance: %d, secId: %d, encType: %d", clearance, secId, encType)
+	// log.Printf("clearance: %d, secId: %d, encType: %d", clearance, secId, encType)
+	if clearance != 0xF {
+		return "", errors.New("insufficient clearance")
+	}
+	if secId != 0x65 {
+		return "", errors.New("unauthorized security ID")
+	}
 	plen := stream[6] // 0x08
 	if len(stream) < int(7+plen) {
 		return "", errors.New("packet too short for payload")
