@@ -110,3 +110,26 @@ func main() {
 2. How do you implement the "Block Maxima" strategy (pre-calculating prefix and suffix maximums within fixed blocks of size $K$) directly within the existing loops without allocating extra memory pools?
 
 This one forces you to marry bit shifting, array partitioning, and sliding pointer boundaries perfectly. Let’s see how you optimize this RobCo terminal!
+
+---
+
+## Local LeetCode-Style Setup
+
+This directory is set up as a small Go coding challenge. The entry point is:
+
+```go
+func AnalyzeTelemetry(telemetry []uint64, k int, out []uint16)
+```
+
+Use these commands from inside `tactical-satellite-sync`:
+
+```sh
+go test -v ./...
+go run ./cmd/analyze
+```
+
+Files:
+
+* `solution.go` contains the starter stub for your implementation.
+* `solution_test.go` contains visible test cases for the sample dataset, bit extraction, invalid inputs, and zero-allocation successful analysis. These tests are expected to fail until you implement the stub.
+* `cmd/analyze/main.go` runs the challenge dataset from this README and prints the output slice.
