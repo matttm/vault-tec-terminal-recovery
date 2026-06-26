@@ -1,6 +1,8 @@
 package caravan
 
-import "container/heap"
+import (
+	"container/heap"
+)
 
 type routeState struct {
 	node int
@@ -38,6 +40,29 @@ func (h *riskHeap) Pop() any {
 // MinimizeMaxCaravanRisk finds a path from source to destination that minimizes
 // the maximum risk score of any single route along that path.
 func MinimizeMaxCaravanRisk(n int, routes [][]int, source int, destination int) int {
-	// TODO: implement this function.
+	// Creating adjancency list
+	h := riskHeap {}
+	adjList := map[int][]routeState {}
+	for _, route := range routes {
+		src, dst, rsk := route[0], route[1], route[2]
+		if len(adjList[src]) == 0 {
+			adjList[src] = []routeState{}
+		}
+		adjList[src] = append(adjList[src], routeState{ node: dst, risk: rsk })
+	}
+	// Set starting node
+	heap.Push(&h, routeState { node: source, risk: 0 })
+	for h.Len() > 0 {
+		state := heap.Pop(&h).(routeState)
+		cur := state.node
+		rsk := state.risk
+		if cur == destination {
+			return rsk
+		}
+		for _, neighbor := range adjList[cur] {
+			heap.Push(&h, routeState { node: neighbor.node, risk: max(neighbor.risk, rsk)})
+		}
+		adjList[cur] = nil
+	}
 	return -1
 }
