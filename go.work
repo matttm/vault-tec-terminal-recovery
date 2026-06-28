@@ -3,6 +3,7 @@ go 1.24
 use (
 	./caravan-trade-network
 	./distributed-memory-core
+	./operation-bit-siphon
 	./tactical-satellite-sync
 	./vault-tec-terminal-recovery
 )
